@@ -1,0 +1,258 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>زين للملابس الجاهزة</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- نظام الحساب -->
+    <div id="authOverlay" class="auth-overlay">
+
+        <!-- التسجيل -->
+        <div id="registerBox" class="auth-box">
+
+            <h2>إنشاء حساب</h2>
+            <p>أنشئ حسابك في زين للملابس الجاهزة</p>
+
+            <input type="text" id="registerName" placeholder="الاسم الكامل">
+
+            <input type="email" id="registerEmail" placeholder="البريد الإلكتروني">
+
+            <input type="tel" id="registerPhone" placeholder="رقم الهاتف">
+
+            <input type="text" id="registerAddress" placeholder="العنوان">
+
+            <input type="password" id="registerPassword" placeholder="كلمة المرور">
+
+            <input type="password" id="registerPasswordConfirm" placeholder="تأكيد كلمة المرور">
+
+            <input type="text" id="fatherName" placeholder="ما اسم أبيك؟">
+
+            <button onclick="registerCustomer()">إنشاء الحساب</button>
+
+            <p id="registerMessage" class="auth-message"></p>
+
+            <a href="#" onclick="showLogin(); return false;">
+                لدي حساب بالفعل
+            </a>
+
+        </div>
+
+
+        <!-- تسجيل الدخول -->
+        <div id="loginBox" class="auth-box auth-hidden">
+
+            <h2>تسجيل الدخول</h2>
+
+            <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
+
+            <input type="password" id="loginPassword" placeholder="كلمة المرور">
+
+            <button onclick="loginCustomer()">تسجيل الدخول</button>
+
+            <a class="forgot-password"
+               href="#"
+               onclick="showForgotPassword(); return false;">
+                هل نسيت كلمة المرور؟
+            </a>
+
+            <p id="loginMessage" class="auth-message"></p>
+
+            <a href="#" onclick="showRegister(); return false;">
+                إنشاء حساب جديد
+            </a>
+
+        </div>
+
+
+        <!-- استرجاع كلمة المرور -->
+        <div id="forgotBox" class="auth-box auth-hidden">
+
+            <h2>استرجاع كلمة المرور</h2>
+
+            <p>اكتب بياناتك لاسترجاع حسابك</p>
+
+            <input type="email"
+                   id="forgotEmail"
+                   placeholder="البريد الإلكتروني">
+
+            <input type="text"
+                   id="forgotFatherName"
+                   placeholder="ما اسم أبيك؟">
+
+            <button onclick="resetPassword()">
+                التحقق واسترجاع كلمة المرور
+            </button>
+
+            <div id="newPasswordArea" class="auth-hidden">
+
+                <input type="password"
+                       id="newPassword"
+                       placeholder="كلمة المرور الجديدة">
+
+                <input type="password"
+                       id="newPasswordConfirm"
+                       placeholder="تأكيد كلمة المرور الجديدة">
+
+                <button onclick="saveNewPassword()">
+                    حفظ كلمة المرور الجديدة
+                </button>
+
+            </div>
+
+            <p id="forgotMessage" class="auth-message"></p>
+
+            <a href="#" onclick="showLogin(); return false;">
+                العودة لتسجيل الدخول
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- الموقع -->
+
+    <header>
+
+        <div class="logo">زين</div>
+
+        <nav>
+            <a href="#home">الرئيسية</a>
+            <a href="#products">المنتجات</a>
+            <a href="#about">من نحن</a>
+            <a href="#contact">تواصل معنا</a>
+        </nav>
+
+    </header>
+
+
+    <section id="home" class="hero">
+
+        <h1>زين للملابس الجاهزة</h1>
+
+        <p>
+            ملابس جاهزة بأسعار مميزة
+            <br>
+            جملة وقطاعي
+        </p>
+
+        <button onclick="showMessage()">تواصل معنا</button>
+
+    </section>
+
+
+    <section id="products" class="products">
+
+        <h2>منتجاتنا</h2>
+
+        <div class="product-container">
+
+            <div class="product">
+
+                <div class="product-image">
+                    صورة المنتج
+                </div>
+
+                <h3>ملابس حريمي</h3>
+
+                <p>أحدث الموديلات</p>
+
+                <strong>السعر: 000 جنيه</strong>
+
+                <button>اطلب الآن</button>
+
+            </div>
+
+
+            <div class="product">
+
+                <div class="product-image">
+                    صورة المنتج
+                </div>
+
+                <h3>ملابس أولادي</h3>
+
+                <p>ملابس أطفال متنوعة</p>
+
+                <strong>السعر: 000 جنيه</strong>
+
+                <button>اطلب الآن</button>
+
+            </div>
+
+
+            <div class="product">
+
+                <div class="product-image">
+                    صورة المنتج
+                </div>
+
+                <h3>ملابس شبابي</h3>
+
+                <p>أحدث الملابس الشبابية</p>
+
+                <strong>السعر: 000 جنيه</strong>
+
+                <button>اطلب الآن</button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section id="about" class="about">
+
+        <h2>من نحن</h2>
+
+        <p>
+            شركة زين للملابس الجاهزة
+            لاستيراد وتصدير الملابس الجاهزة
+            والبيع بالجملة والقطاعي.
+        </p>
+
+    </section>
+
+
+    <section id="contact" class="contact">
+
+        <h2>تواصل معنا</h2>
+
+        <p>📞 01550154020</p>
+
+        <p>
+            📍 ههيا - الشرقية
+            - خلف السكة الحديد
+            - شارع أبو منصور للمخبوزات
+        </p>
+
+        <p>🚚 توصيل لجميع المحافظات حتى باب المنزل</p>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 زين للملابس الجاهزة
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
+```

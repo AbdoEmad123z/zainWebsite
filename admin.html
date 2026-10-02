@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>لوحة تحكم زين</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <!-- تسجيل دخول المدير -->
+
+    <div id="adminLogin" class="admin-login">
+
+        <div class="login-box">
+
+            <h1>لوحة تحكم زين</h1>
+
+            <p>تسجيل دخول صاحب الموقع</p>
+
+            <input
+                type="text"
+                id="adminUsername"
+                placeholder="اسم المستخدم"
+            >
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="كلمة المرور"
+            >
+
+            <button onclick="adminLogin()">
+                دخول
+            </button>
+
+            <p id="adminLoginMessage"></p>
+
+        </div>
+
+    </div>
+
+
+    <!-- لوحة التحكم -->
+
+    <div id="adminPanel" class="admin-panel admin-hidden">
+
+        <header class="admin-header">
+
+            <div>
+                <h1>زين للملابس الجاهزة</h1>
+                <p>لوحة تحكم صاحب الموقع</p>
+            </div>
+
+            <button onclick="adminLogout()">
+                تسجيل الخروج
+            </button>
+
+        </header>
+
+
+        <main>
+
+            <!-- الإحصائيات -->
+
+            <section class="stats">
+
+                <div class="stat">
+                    <h3>المنتجات</h3>
+                    <strong id="productsCount">0</strong>
+                </div>
+
+                <div class="stat">
+                    <h3>الطلبات</h3>
+                    <strong id="ordersCount">0</strong>
+                </div>
+
+                <div class="stat">
+                    <h3>العملاء</h3>
+                    <strong id="customersCount">0</strong>
+                </div>
+
+            </section>
+
+
+            <!-- إضافة منتج -->
+
+            <section class="admin-section">
+
+                <h2>إضافة منتج جديد</h2>
+
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="اسم المنتج"
+                >
+
+                <input
+                    type="text"
+                    id="productDescription"
+                    placeholder="وصف المنتج"
+                >
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    placeholder="السعر بالجنيه"
+                >
+
+                <input
+                    type="text"
+                    id="productImage"
+                    placeholder="رابط صورة المنتج"
+                >
+
+                <button onclick="addProduct()">
+                    إضافة المنتج
+                </button>
+
+                <p id="productMessage"></p>
+
+            </section>
+
+
+            <!-- المنتجات -->
+
+            <section class="admin-section">
+
+                <h2>المنتجات</h2>
+
+                <div id="productsList"></div>
+
+            </section>
+
+
+            <!-- الطلبات -->
+
+            <section class="admin-section">
+
+                <h2>الطلبات</h2>
+
+                <div id="ordersList"></div>
+
+            </section>
+
+
+            <!-- العملاء -->
+
+            <section class="admin-section">
+
+                <h2>العملاء</h2>
+
+                <div id="customersList"></div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="admin.js"></script>
+
+</body>
+
+</html>

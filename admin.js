@@ -1,78 +1,241 @@
 // ======================================
-// بيانات دخول صاحب الموقع - تجريبية
+// Firebase Admin Dashboard
+// زين للملابس الجاهزة
 // ======================================
 
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "123456";
+import { auth, db } from "./firebase-config.js";
+
+import {
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
 // ======================================
-// تسجيل دخول المدير
+// UID صاحب الموقع
 // ======================================
 
-function adminLogin() {
+const ADMIN_UID = "426qZ2WuS5dK3YTy37LWAKbLO112";
 
-    const username =
-        document.getElementById("adminUsername").value.trim();
+
+// ======================================
+// عناصر صفحة تسجيل الدخول
+// ======================================
+
+const loginBox =
+    document.getElementById("loginBox");
+
+const adminPanel =
+    document.getElementById("adminPanel");
+
+const emailInput =
+    document.getElementById("adminEmail");
+
+const passwordInput =
+    document.getElementById("adminPassword");
+
+const loginMessage =
+    document.getElementById("adminLoginMessage");
+
+
+// ======================================
+// تسجيل دخول الأدمن
+// ======================================
+
+window.adminLogin = async function () {
+
+    const email =
+        emailInput.value.trim();
 
     const password =
-        document.getElementById("adminPassword").value;
-
-    const message =
-        document.getElementById("adminLoginMessage");
+        passwordInput.value;
 
 
-    if (
-        username === ADMIN_USERNAME &&
-        password === ADMIN_PASSWORD
-    ) {
+    if (!email || !password) {
 
-        localStorage.setItem(
-            "zainAdminLoggedIn",
-            "true"
-        );
+        loginMessage.textContent =
+            "من فضلك اكتب البريد الإلكتروني وكلمة المرور.";
 
-        showAdminPanel();
+        loginMessage.style.color = "red";
 
-    } else {
-
-        message.textContent =
-            "اسم المستخدم أو كلمة المرور غير صحيحة.";
-
-        message.style.color = "red";
+        return;
     }
-}
+
+
+    loginMessage.textContent =
+        "جاري تسجيل الدخول...";
+
+    loginMessage.style.color = "black";
+
+
+    try {
+
+        const userCredential =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        const user =
+            userCredential.user;
+
+
+        // التأكد أن الحساب هو حساب صاحب الموقع
+        if (user.uid !== ADMIN_UID) {
+
+            await signOut(auth);
+
+            loginMessage.textContent =
+                "هذا الحساب ليس حساب صاحب الموقع.";
+
+            loginMessage.style.color = "red";
+
+            return;
+        }
+
+
+        loginMessage.textContent = "";
+
+        loginBox.style.display = "none";
+
+        adminPanel.style.display = "block";
+
+
+        await loadDashboard();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        if (
+            error.code === "auth/invalid-credential"
+        ) {
+
+            loginMessage.textContent =
+                "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+        }
+
+        else if (
+            error.code === "auth/user-not-found"
+        ) {
+
+            loginMessage.textContent =
+                "الحساب غير موجود.";
+
+        }
+
+        else if (
+            error.code === "auth/wrong-password"
+        ) {
+
+            loginMessage.textContent =
+                "كلمة المرور غير صحيحة.";
+
+        }
+
+        else if (
+            error.code === "auth/invalid-email"
+        ) {
+
+            loginMessage.textContent =
+                "البريد الإلكتروني غير صحيح.";
+
+        }
+
+        else {
+
+            loginMessage.textContent =
+                "حدث خطأ أثناء تسجيل الدخول.";
+
+            console.error(error);
+        }
+
+
+        loginMessage.style.color = "red";
+    }
+};
 
 
 // ======================================
-// إظهار لوحة التحكم
+// تسجيل الخروج
 // ======================================
 
-function showAdminPanel() {
+window.adminLogout = async function () {
 
-    document
-        .getElementById("adminLogin")
-        .classList.add("admin-hidden");
+    try {
 
-    document
-        .getElementById("adminPanel")
-        .classList.remove("admin-hidden");
+        await signOut(auth);
 
-    loadDashboard();
-}
+        adminPanel.style.display = "none";
+
+        loginBox.style.display = "block";
+
+        passwordInput.value = "";
+
+
+    } catch (error) {
+
+        console.error(error);
+    }
+};
 
 
 // ======================================
-// تسجيل خروج المدير
+// مراقبة حالة تسجيل الدخول
 // ======================================
 
-function adminLogout() {
+onAuthStateChanged(
+    auth,
+    async function (user) {
 
-    localStorage.removeItem(
-        "zainAdminLoggedIn"
-    );
+        if (
+            user &&
+            user.uid === ADMIN_UID
+        ) {
 
-    location.reload();
+            loginBox.style.display = "none";
+
+            adminPanel.style.display = "block";
+
+            await loadDashboard();
+
+        }
+
+        else {
+
+            loginBox.style.display = "block";
+
+            adminPanel.style.display = "none";
+        }
+    }
+);
+
+
+// ======================================
+// تحميل لوحة التحكم
+// ======================================
+
+async function loadDashboard() {
+
+    await loadProducts();
+
+    await loadOrders();
+
+    await loadCustomers();
 }
 
 
@@ -80,159 +243,268 @@ function adminLogout() {
 // إضافة منتج
 // ======================================
 
-function addProduct() {
+window.addProduct = async function () {
 
     const name =
-        document.getElementById("productName").value.trim();
+        document
+            .getElementById("productName")
+            .value
+            .trim();
+
 
     const description =
         document
             .getElementById("productDescription")
-            .value.trim();
+            .value
+            .trim();
+
 
     const price =
         document
             .getElementById("productPrice")
-            .value.trim();
+            .value
+            .trim();
+
+
+    const category =
+        document
+            .getElementById("productCategory")
+            .value;
+
 
     const image =
         document
             .getElementById("productImage")
-            .value.trim();
-
-    const message =
-        document.getElementById("productMessage");
+            .value
+            .trim();
 
 
-    if (!name || !price) {
+    if (
+        !name ||
+        !price ||
+        !image
+    ) {
 
-        message.textContent =
-            "من فضلك أدخل اسم المنتج والسعر.";
-
-        message.style.color = "red";
+        alert(
+            "من فضلك املأ اسم المنتج والسعر ورابط الصورة."
+        );
 
         return;
     }
 
 
-    const products =
-        JSON.parse(
-            localStorage.getItem("zainProducts") || "[]"
+    try {
+
+        await addDoc(
+            collection(db, "products"),
+            {
+
+                name: name,
+
+                description: description,
+
+                price: Number(price),
+
+                category: category,
+
+                image: image,
+
+                createdAt:
+                    new Date().toISOString()
+            }
         );
 
 
-    const product = {
-
-        id: Date.now(),
-
-        name: name,
-
-        description: description,
-
-        price: price,
-
-        image: image
-    };
+        alert(
+            "تم إضافة المنتج بنجاح."
+        );
 
 
-    products.push(product);
+        document
+            .getElementById("productName")
+            .value = "";
 
 
-    localStorage.setItem(
-        "zainProducts",
-        JSON.stringify(products)
-    );
+        document
+            .getElementById("productDescription")
+            .value = "";
 
 
-    message.textContent =
-        "تمت إضافة المنتج بنجاح.";
-
-    message.style.color = "green";
-
-
-    document.getElementById("productName").value = "";
-    document.getElementById("productDescription").value = "";
-    document.getElementById("productPrice").value = "";
-    document.getElementById("productImage").value = "";
+        document
+            .getElementById("productPrice")
+            .value = "";
 
 
-    loadProducts();
-    updateStats();
-}
+        document
+            .getElementById("productImage")
+            .value = "";
+
+
+        await loadProducts();
+
+
+        await updateStats();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "حدث خطأ أثناء إضافة المنتج."
+        );
+    }
+};
 
 
 // ======================================
-// عرض المنتجات
+// تحميل المنتجات
 // ======================================
 
-function loadProducts() {
+async function loadProducts() {
 
     const container =
-        document.getElementById("productsList");
-
-    const products =
-        JSON.parse(
-            localStorage.getItem("zainProducts") || "[]"
+        document.getElementById(
+            "productsList"
         );
 
 
-    container.innerHTML = "";
+    if (!container) return;
 
 
-    if (products.length === 0) {
+    container.innerHTML =
+        "<p>جاري تحميل المنتجات...</p>";
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "products"
+                )
+            );
+
+
+        if (snapshot.empty) {
+
+            container.innerHTML =
+                "<p>لا توجد منتجات حاليًا.</p>";
+
+            updateStat(
+                "productsCount",
+                0
+            );
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        let count = 0;
+
+
+        snapshot.forEach(
+            function (productDoc) {
+
+                count++;
+
+
+                const product =
+                    productDoc.data();
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "admin-product";
+
+
+                const image =
+                    product.image
+                        ? `
+                            <img
+                                src="${escapeHtml(product.image)}"
+                                alt="${escapeHtml(product.name || "")}"
+                                onerror="this.style.display='none'"
+                            >
+                          `
+                        : `
+                            <div>
+                                بدون صورة
+                            </div>
+                          `;
+
+
+                div.innerHTML = `
+
+                    ${image}
+
+                    <div class="admin-product-info">
+
+                        <h3>
+                            ${escapeHtml(
+                                product.name || ""
+                            )}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(
+                                product.description || ""
+                            )}
+                        </p>
+
+                        <strong>
+                            ${escapeHtml(
+                                String(product.price || 0)
+                            )}
+                            جنيه
+                        </strong>
+
+                        <p>
+                            القسم:
+                            ${escapeHtml(
+                                product.category || ""
+                            )}
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="delete-button"
+                        onclick="deleteProduct('${productDoc.id}')"
+                    >
+                        حذف
+                    </button>
+
+                `;
+
+
+                container.appendChild(div);
+            }
+        );
+
+
+        updateStat(
+            "productsCount",
+            count
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
 
         container.innerHTML =
-            "<p>لا توجد منتجات حتى الآن.</p>";
-
-        return;
+            "<p>حدث خطأ أثناء تحميل المنتجات.</p>";
     }
-
-
-    products.forEach(function(product) {
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "admin-product";
-
-
-        const image =
-            product.image
-                ? `<img src="${product.image}" alt="">`
-                : `<div>بدون صورة</div>`;
-
-
-        div.innerHTML = `
-
-            ${image}
-
-            <div class="admin-product-info">
-
-                <h3>${product.name}</h3>
-
-                <p>${product.description || ""}</p>
-
-                <strong>
-                    ${product.price} جنيه
-                </strong>
-
-            </div>
-
-            <button
-                class="delete-button"
-                onclick="deleteProduct(${product.id})">
-
-                حذف
-
-            </button>
-
-        `;
-
-
-        container.appendChild(div);
-
-    });
 }
 
 
@@ -240,77 +512,151 @@ function loadProducts() {
 // حذف منتج
 // ======================================
 
-function deleteProduct(id) {
+window.deleteProduct = async function (
+    productId
+) {
 
-    const products =
-        JSON.parse(
-            localStorage.getItem("zainProducts") || "[]"
+    const confirmed =
+        confirm(
+            "هل أنت متأكد من حذف هذا المنتج؟"
         );
 
 
-    const newProducts =
-        products.filter(function(product) {
-
-            return product.id !== id;
-
-        });
+    if (!confirmed) return;
 
 
-    localStorage.setItem(
-        "zainProducts",
-        JSON.stringify(newProducts)
-    );
+    try {
+
+        await deleteDoc(
+            doc(
+                db,
+                "products",
+                productId
+            )
+        );
 
 
-    loadProducts();
+        alert(
+            "تم حذف المنتج بنجاح."
+        );
 
-    updateStats();
-}
+
+        await loadProducts();
+
+        await updateStats();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "حدث خطأ أثناء حذف المنتج."
+        );
+    }
+};
 
 
 // ======================================
-// عرض العملاء
+// تحميل الطلبات
 // ======================================
 
-function loadCustomers() {
+async function loadOrders() {
 
     const container =
-        document.getElementById("customersList");
+        document.getElementById(
+            "ordersList"
+        );
 
 
-    container.innerHTML = "";
+    if (!container) return;
 
 
-    let count = 0;
+    container.innerHTML =
+        "<p>جاري تحميل الطلبات...</p>";
 
 
-    for (
-        let i = 0;
-        i < localStorage.length;
-        i++
-    ) {
+    try {
 
-        const key =
-            localStorage.key(i);
-
-
-        if (
-            key &&
-            key.startsWith("zainCustomer_")
-        ) {
-
-            const data =
-                localStorage.getItem(key);
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "orders"
+                )
+            );
 
 
-            try {
+        if (snapshot.empty) {
 
-                const customer =
-                    JSON.parse(data);
+            container.innerHTML =
+                "<p>لا توجد طلبات حاليًا.</p>";
+
+            updateStat(
+                "ordersCount",
+                0
+            );
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        let count = 0;
+
+
+        snapshot.forEach(
+            function (orderDoc) {
+
+                count++;
+
+
+                const order =
+                    orderDoc.data();
+
+
+                const items =
+                    Array.isArray(order.items)
+                        ? order.items
+                        : [];
+
+
+                let itemsHTML = "";
+
+
+                items.forEach(
+                    function (item) {
+
+                        itemsHTML += `
+
+                            <li>
+
+                                ${escapeHtml(
+                                    item.name || ""
+                                )}
+
+                                ×
+
+                                ${escapeHtml(
+                                    String(
+                                        item.quantity || 1
+                                    )
+                                )}
+
+                            </li>
+
+                        `;
+                    }
+                );
 
 
                 const div =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 div.className =
                     "admin-card";
@@ -318,207 +664,322 @@ function loadCustomers() {
 
                 div.innerHTML = `
 
-                    <strong>
-                        ${customer.name}
-                    </strong>
+                    <h3>
+                        طلب رقم:
+                        ${escapeHtml(
+                            orderDoc.id
+                        )}
+                    </h3>
+
+                    <p>
+                        <strong>
+                            الاسم:
+                        </strong>
+
+                        ${escapeHtml(
+                            order.customerName || ""
+                        )}
+                    </p>
+
+                    <p>
+                        <strong>
+                            الهاتف:
+                        </strong>
+
+                        ${escapeHtml(
+                            order.phone || ""
+                        )}
+                    </p>
+
+                    <p>
+                        <strong>
+                            العنوان:
+                        </strong>
+
+                        ${escapeHtml(
+                            order.address || ""
+                        )}
+                    </p>
+
+                    <p>
+                        <strong>
+                            الإجمالي:
+                        </strong>
+
+                        ${escapeHtml(
+                            String(
+                                order.total || 0
+                            )
+                        )}
+                        جنيه
+                    </p>
+
+                    <h4>
+                        المنتجات:
+                    </h4>
+
+                    <ul>
+                        ${itemsHTML}
+                    </ul>
+
+                `;
+
+
+                container.appendChild(div);
+            }
+        );
+
+
+        updateStat(
+            "ordersCount",
+            count
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML =
+            "<p>حدث خطأ أثناء تحميل الطلبات.</p>";
+    }
+}
+
+
+// ======================================
+// تحميل العملاء
+// ======================================
+
+async function loadCustomers() {
+
+    const container =
+        document.getElementById(
+            "customersList"
+        );
+
+
+    if (!container) return;
+
+
+    container.innerHTML =
+        "<p>جاري تحميل العملاء...</p>";
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "customers"
+                )
+            );
+
+
+        if (snapshot.empty) {
+
+            container.innerHTML =
+                "<p>لا يوجد عملاء حاليًا.</p>";
+
+            updateStat(
+                "customersCount",
+                0
+            );
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        let count = 0;
+
+
+        snapshot.forEach(
+            function (customerDoc) {
+
+                count++;
+
+
+                const customer =
+                    customerDoc.data();
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "admin-card";
+
+
+                div.innerHTML = `
+
+                    <h3>
+                        ${escapeHtml(
+                            customer.name || ""
+                        )}
+                    </h3>
 
                     <p>
                         البريد:
-                        ${customer.email}
+                        ${escapeHtml(
+                            customer.email || ""
+                        )}
                     </p>
 
                     <p>
                         الهاتف:
-                        ${customer.phone}
+                        ${escapeHtml(
+                            customer.phone || ""
+                        )}
                     </p>
 
                     <p>
                         العنوان:
-                        ${customer.address}
+                        ${escapeHtml(
+                            customer.address || ""
+                        )}
                     </p>
 
                 `;
 
 
                 container.appendChild(div);
-
-                count++;
-
-            } catch (error) {
-
-                console.log(error);
-
             }
-        }
-    }
+        );
 
 
-    if (count === 0) {
+        updateStat(
+            "customersCount",
+            count
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
 
         container.innerHTML =
-            "<p>لا يوجد عملاء مسجلون على هذا الجهاز.</p>";
+            "<p>حدث خطأ أثناء تحميل العملاء.</p>";
     }
 }
 
 
 // ======================================
-// الطلبات
+// تحديث الإحصائيات
 // ======================================
 
-function loadOrders() {
+async function updateStats() {
 
-    const container =
-        document.getElementById("ordersList");
+    try {
 
-
-    const orders =
-        JSON.parse(
-            localStorage.getItem("zainOrders") || "[]"
-        );
-
-
-    container.innerHTML = "";
-
-
-    if (orders.length === 0) {
-
-        container.innerHTML =
-            "<p>لا توجد طلبات حتى الآن.</p>";
-
-        return;
-    }
-
-
-    orders.forEach(function(order) {
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "admin-card";
-
-
-        div.innerHTML = `
-
-            <strong>
-                ${order.product}
-            </strong>
-
-            <p>
-                العميل:
-                ${order.name}
-            </p>
-
-            <p>
-                الهاتف:
-                ${order.phone}
-            </p>
-
-            <p>
-                العنوان:
-                ${order.address}
-            </p>
-
-        `;
-
-
-        container.appendChild(div);
-
-    });
-}
-
-
-// ======================================
-// الإحصائيات
-// ======================================
-
-function updateStats() {
-
-    const products =
-        JSON.parse(
-            localStorage.getItem("zainProducts") || "[]"
-        );
-
-
-    let customers = 0;
-
-
-    for (
-        let i = 0;
-        i < localStorage.length;
-        i++
-    ) {
-
-        const key =
-            localStorage.key(i);
-
-
-        if (
-            key &&
-            key.startsWith("zainCustomer_")
-        ) {
-
-            customers++;
-        }
-    }
-
-
-    const orders =
-        JSON.parse(
-            localStorage.getItem("zainOrders") || "[]"
-        );
-
-
-    document.getElementById(
-        "productsCount"
-    ).textContent = products.length;
-
-
-    document.getElementById(
-        "customersCount"
-    ).textContent = customers;
-
-
-    document.getElementById(
-        "ordersCount"
-    ).textContent = orders.length;
-}
-
-
-// ======================================
-// تحميل لوحة التحكم
-// ======================================
-
-function loadDashboard() {
-
-    loadProducts();
-
-    loadCustomers();
-
-    loadOrders();
-
-    updateStats();
-}
-
-
-// ======================================
-// عند فتح صفحة لوحة التحكم
-// ======================================
-
-window.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        const loggedIn =
-            localStorage.getItem(
-                "zainAdminLoggedIn"
+        const productsSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "products"
+                )
             );
 
 
-        if (loggedIn === "true") {
+        const customersSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "customers"
+                )
+            );
 
-            showAdminPanel();
-        }
 
+        const ordersSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "orders"
+                )
+            );
+
+
+        updateStat(
+            "productsCount",
+            productsSnapshot.size
+        );
+
+
+        updateStat(
+            "customersCount",
+            customersSnapshot.size
+        );
+
+
+        updateStat(
+            "ordersCount",
+            ordersSnapshot.size
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
     }
-);
+}
+
+
+// ======================================
+// تحديث رقم إحصائية
+// ======================================
+
+function updateStat(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+    }
+}
+
+
+// ======================================
+// حماية النصوص
+// ======================================
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}

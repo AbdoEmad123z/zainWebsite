@@ -1,368 +1,1246 @@
+```css
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: Arial, Tahoma, sans-serif;
     background: #f7f9fc;
     color: #172033;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
-/* =========================
-   الهيدر
-========================= */
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ================================
+   HEADER
+================================ */
 
 header {
-    background: #ffffff;
-    height: 75px;
-    padding: 0 7%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 14px 5%;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e7ebf2;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
     font-size: 32px;
-    font-weight: bold;
-    color: #1261a0;
+    font-weight: 900;
+    color: #0b63ce;
 }
 
 nav {
     display: flex;
-    gap: 30px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #172033;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-nav a:hover {
-    color: #1261a0;
-}
-
-/* =========================
-   الرئيسية
-========================= */
-
-.hero {
-    min-height: 500px;
-    padding: 100px 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #eaf4ff, #ffffff);
-}
-
-.hero h1 {
-    font-size: 52px;
-    color: #1261a0;
-    margin-bottom: 15px;
-}
-
-.hero p {
-    font-size: 21px;
-    color: #555;
-    margin-bottom: 30px;
-}
-
-button {
-    border: none;
-    background: #1261a0;
-    color: white;
-    padding: 13px 28px;
-    border-radius: 8px;
-    font-size: 17px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #0b4778;
-    transform: translateY(-2px);
-}
-
-/* =========================
-   المنتجات
-========================= */
-
-.products {
-    padding: 70px 7%;
-    text-align: center;
-}
-
-.products h2,
-.about h2,
-.contact h2 {
-    font-size: 34px;
-    margin-bottom: 40px;
-    color: #1261a0;
-}
-
-.product-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 25px;
 }
 
-.product {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-    transition: 0.3s;
+nav a {
+    color: #172033;
+    font-weight: 700;
+    transition: 0.2s;
 }
 
-.product:hover {
-    transform: translateY(-7px);
+nav a:hover {
+    color: #0b63ce;
 }
 
-.product-image {
-    height: 250px;
-    background: #eef3f8;
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-actions button {
+    border: none;
     border-radius: 10px;
+    padding: 9px 13px;
+
+    background: #eef5ff;
+    color: #075bbf;
+
+    font-weight: 700;
+}
+
+.header-actions button:hover {
+    background: #dcecff;
+}
+
+#cartCount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 22px;
+    height: 22px;
+
+    margin-right: 4px;
+
+    border-radius: 50%;
+
+    background: #0b63ce;
+    color: white;
+
+    font-size: 12px;
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero {
+    min-height: 520px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #777;
-    margin-bottom: 20px;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf3ff,
+            #ffffff
+        );
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero h1 {
+    margin-bottom: 18px;
+
+    font-size: clamp(36px, 6vw, 64px);
+
+    color: #075bbf;
+}
+
+.hero p {
+    margin-bottom: 30px;
+
+    font-size: 21px;
+
+    color: #526176;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+.hero-buttons button,
+.main-button {
+    border: none;
+    border-radius: 12px;
+
+    padding: 13px 25px;
+
+    background: #0b63ce;
+    color: white;
+
+    font-weight: 800;
+    font-size: 16px;
+
+    transition: 0.2s;
+}
+
+.hero-buttons button:hover,
+.main-button:hover {
+    transform: translateY(-2px);
+    background: #084f9f;
+}
+
+
+/* ================================
+   SECTIONS
+================================ */
+
+section {
+    padding: 75px 5%;
+}
+
+section h2 {
+    margin-bottom: 10px;
+
+    text-align: center;
+
+    font-size: 34px;
+
+    color: #075bbf;
+}
+
+.section-description {
+    margin-bottom: 30px;
+
+    text-align: center;
+
+    color: #667085;
+}
+
+
+/* ================================
+   CATEGORY BUTTONS
+================================ */
+
+.category-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 35px;
+}
+
+.category-button {
+    border: 1px solid #d6e2f1;
+
+    border-radius: 30px;
+
+    padding: 9px 20px;
+
+    background: white;
+    color: #24415f;
+
+    font-weight: 700;
+}
+
+.category-button:hover,
+.category-button.active {
+    background: #0b63ce;
+    color: white;
+    border-color: #0b63ce;
+}
+
+
+/* ================================
+   PRODUCTS
+================================ */
+
+.product-container {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+
+    gap: 25px;
+
+    max-width: 1200px;
+
+    margin: auto;
+}
+
+.product {
+    overflow: hidden;
+
+    background: white;
+
+    border: 1px solid #e4e9f0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+
+    transition: 0.25s;
+
+    padding-bottom: 18px;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.10);
+}
+
+.product-image {
+    width: 100%;
+    height: 270px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef3f8;
+
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.no-image {
+    color: #8a96a8;
+    font-weight: 700;
 }
 
 .product h3 {
-    font-size: 23px;
-    margin-bottom: 8px;
+    padding: 18px 18px 5px;
+
+    color: #172033;
 }
 
 .product p {
-    color: #666;
-    margin-bottom: 10px;
+    padding: 0 18px;
+
+    color: #697586;
+
+    min-height: 30px;
 }
 
 .product strong {
     display: block;
+
+    padding: 12px 18px;
+
+    color: #0b63ce;
+
     font-size: 19px;
-    color: #1261a0;
-    margin-bottom: 15px;
 }
 
-/* =========================
-   عن الشركة
-========================= */
+.product > button {
+    margin: 0 18px;
+
+    width: calc(100% - 36px);
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 11px;
+
+    background: #0b63ce;
+    color: white;
+
+    font-weight: 800;
+}
+
+.product > button:hover {
+    background: #084f9f;
+}
+
+.loading-products,
+.empty-products {
+    grid-column: 1 / -1;
+
+    padding: 50px;
+
+    text-align: center;
+
+    color: #667085;
+}
+
+
+/* ================================
+   ABOUT
+================================ */
 
 .about {
-    padding: 70px 15%;
-    text-align: center;
     background: white;
+
+    text-align: center;
 }
 
 .about p {
-    font-size: 19px;
-    color: #555;
+    max-width: 850px;
+
+    margin: 12px auto;
+
+    color: #566477;
+
+    font-size: 18px;
 }
 
-/* =========================
-   التواصل
-========================= */
+
+/* ================================
+   CONTACT
+================================ */
 
 .contact {
-    padding: 70px 15%;
     text-align: center;
 }
 
-.contact p {
-    font-size: 18px;
+.contact-box {
+    max-width: 700px;
+
+    margin: 30px auto 0;
+
+    padding: 30px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.contact-box p {
     margin: 12px 0;
+
+    color: #566477;
 }
 
-/* =========================
-   الفوتر
-========================= */
-
-footer {
-    background: #172033;
-    color: white;
-    text-align: center;
-    padding: 25px;
-}
-
-/* =========================
-   نظام الحساب والتسجيل
-========================= */
-
-.auth-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+.contact-buttons {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.contact-buttons button {
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 11px 20px;
+
+    background: #0b63ce;
+    color: white;
+
+    font-weight: 800;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+    padding: 25px;
+
+    text-align: center;
+
+    background: #0d1b2a;
+
+    color: white;
+}
+
+
+/* ================================
+   MODALS
+================================ */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 5000;
+
+    display: none;
+
     align-items: center;
-    z-index: 99999;
+    justify-content: center;
+
     padding: 20px;
+
+    background: rgba(0, 0, 0, 0.55);
+
     overflow-y: auto;
 }
 
-.auth-box {
-    width: 100%;
-    max-width: 430px;
-    background: #ffffff;
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-box {
+    position: relative;
+
+    width: min(460px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
     padding: 30px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.20);
 }
 
-.auth-box h2 {
-    color: #1261a0;
-    margin-bottom: 10px;
-    font-size: 28px;
+.modal-box h2 {
+    margin-bottom: 8px;
+
+    color: #075bbf;
 }
 
-.auth-box p {
-    color: #666;
-    margin-bottom: 15px;
+.modal-box > p {
+    margin-bottom: 18px;
+
+    color: #667085;
 }
 
-.auth-box input {
-    width: 100%;
-    padding: 13px;
-    margin: 7px 0;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    font-size: 15px;
-    font-family: inherit;
-    outline: none;
-}
+.close-modal {
+    position: absolute;
 
-.auth-box input:focus {
-    border-color: #1261a0;
-    box-shadow: 0 0 0 2px rgba(18, 97, 160, 0.1);
-}
+    top: 12px;
+    left: 12px;
 
-.auth-box button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 10px;
+    width: 35px;
+    height: 35px;
+
     border: none;
-    border-radius: 9px;
-    background: #1261a0;
+
+    border-radius: 50%;
+
+    background: #edf2f7;
+
+    color: #334155;
+
+    font-size: 22px;
+}
+
+.close-modal:hover {
+    background: #dfe7ef;
+}
+
+
+/* ================================
+   FORMS
+================================ */
+
+.modal-box input,
+.modal-box textarea,
+.modal-box select,
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+    width: 100%;
+
+    margin-bottom: 12px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d6dee9;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: white;
+
+    color: #172033;
+
+    font-size: 15px;
+}
+
+.modal-box input:focus,
+.modal-box textarea:focus,
+.modal-box select:focus,
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+    border-color: #0b63ce;
+
+    box-shadow:
+        0 0 0 3px rgba(11, 99, 206, 0.10);
+}
+
+.primary-button {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    background: #0b63ce;
     color: white;
+
+    font-weight: 800;
+
     font-size: 16px;
-    cursor: pointer;
-    font-family: inherit;
 }
 
-.auth-box button:hover {
-    background: #0b4778;
-    transform: none;
+.primary-button:hover {
+    background: #084f9f;
 }
 
-.auth-box a {
-    display: block;
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
     margin-top: 15px;
-    color: #1261a0;
-    text-decoration: none;
-    cursor: pointer;
 }
 
-.auth-box a:hover {
-    text-decoration: underline;
-}
+.auth-links a {
+    color: #0b63ce;
 
-.auth-message {
-    margin-top: 12px;
-    font-size: 14px;
+    font-weight: 700;
 }
 
 .auth-hidden {
-    display: none;
+    display: none !important;
 }
 
-/* منطقة كلمة المرور الجديدة */
+.message {
+    min-height: 25px;
 
-#newPasswordArea {
-    margin-top: 15px;
+    margin-top: 10px;
+
+    color: #075bbf;
+
+    font-weight: 700;
 }
 
-/* نسيت كلمة المرور */
 
-.forgot-password {
+/* ================================
+   ACCOUNT
+================================ */
+
+.account-box {
+    text-align: right;
+}
+
+#accountInfo {
+    margin: 20px 0;
+
+    padding: 18px;
+
+    background: #f6f8fb;
+
+    border-radius: 12px;
+}
+
+#accountInfo p {
+    margin: 8px 0;
+}
+
+.account-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.account-actions button {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    background: #eaf2ff;
+
+    color: #075bbf;
+
+    font-weight: 800;
+}
+
+.account-actions button:hover {
+    background: #dceaff;
+}
+
+.account-actions .admin-button {
+    background: #0b63ce;
+    color: white;
+}
+
+
+/* ================================
+   CART
+================================ */
+
+.cart-box {
+    width: min(650px, 100%);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+
+    padding: 12px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    background: #fafcff;
+}
+
+.cart-item-image {
+    flex: 0 0 70px;
+
+    width: 70px;
+    height: 80px;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    background: #edf2f7;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.cart-item-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item-info span {
+    color: #0b63ce;
+
+    font-weight: 700;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 5px;
+}
+
+.quantity-controls button {
+    width: 28px;
+    height: 28px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #eaf2ff;
+
+    color: #075bbf;
+
+    font-weight: 900;
+}
+
+.remove-cart-item {
+    border: none;
+
+    background: transparent;
+
+    color: #c62828;
+
+    font-weight: 700;
+}
+
+.cart-summary {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #e2e8f0;
+
+    font-size: 19px;
+}
+
+#cartTotal,
+#checkoutTotal {
+    color: #0b63ce;
+}
+
+
+/* ================================
+   CHECKOUT
+================================ */
+
+.checkout-total {
+    display: flex;
+    justify-content: space-between;
+
+    margin: 15px 0;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    background: #f1f6fc;
+}
+
+
+/* ================================
+   ADMIN PANEL
+================================ */
+
+.admin-panel {
+    position: relative;
+
+    width: min(1100px, 100%);
+
+    max-height: 94vh;
+
+    overflow-y: auto;
+
+    padding: 30px;
+
+    background: #f6f8fb;
+
+    border-radius: 20px;
+}
+
+.admin-header {
+    margin-bottom: 25px;
+
+    padding: 25px;
+
+    background: #0b63ce;
+
+    color: white;
+
+    border-radius: 15px;
+}
+
+.admin-header h2 {
+    margin-bottom: 5px;
+
+    color: white;
+}
+
+.admin-header p {
+    opacity: 0.9;
+}
+
+.admin-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    padding: 20px;
+
+    background: white;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card span {
     display: block;
-    margin-top: 15px;
-    color: #1261a0;
-    text-decoration: underline;
-    cursor: pointer;
+
+    color: #667085;
 }
 
-/* =========================
-   الموبايل
-========================= */
+.stat-card strong {
+    display: block;
 
-@media (max-width: 768px) {
+    margin-top: 5px;
+
+    color: #0b63ce;
+
+    font-size: 30px;
+}
+
+.admin-section {
+    margin-bottom: 25px;
+
+    padding: 22px;
+
+    background: white;
+
+    border-radius: 15px;
+}
+
+.admin-section h3 {
+    margin-bottom: 18px;
+
+    color: #172033;
+}
+
+.admin-form {
+    max-width: 650px;
+}
+
+.file-label {
+    display: block;
+
+    margin-bottom: 15px;
+
+    color: #526176;
+
+    font-weight: 700;
+}
+
+.file-label input {
+    margin-top: 8px;
+}
+
+.admin-product-item {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 10px;
+
+    padding: 12px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+}
+
+.admin-product-item img {
+    width: 70px;
+    height: 80px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+.admin-product-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-product-info span {
+    color: #0b63ce;
+
+    font-weight: 700;
+}
+
+.admin-product-info small {
+    color: #667085;
+}
+
+.admin-product-item > button {
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 9px 14px;
+
+    background: #fee2e2;
+
+    color: #b42318;
+
+    font-weight: 700;
+}
+
+.admin-order-item,
+.admin-customer-item {
+    margin-bottom: 12px;
+
+    padding: 15px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    background: #fafcff;
+}
+
+.admin-order-item h4 {
+    margin-bottom: 8px;
+
+    color: #0b63ce;
+}
+
+.admin-order-item p,
+.admin-customer-item p {
+    margin: 4px 0;
+
+    color: #526176;
+}
+
+.admin-order-item select {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 10px;
+
+    border: 1px solid #d6dee9;
+
+    border-radius: 8px;
+
+    background: white;
+}
+
+
+/* ================================
+   MESSAGE BOX
+================================ */
+
+.message-box {
+    position: fixed;
+
+    bottom: 25px;
+    right: 25px;
+
+    z-index: 10000;
+
+    max-width: 350px;
+
+    padding: 14px 20px;
+
+    border-radius: 12px;
+
+    background: #0d1b2a;
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.20);
+
+    transform: translateY(120px);
+
+    opacity: 0;
+
+    transition: 0.3s;
+}
+
+.message-box.show {
+    transform: translateY(0);
+
+    opacity: 1;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 800px) {
 
     header {
-        height: auto;
-        padding: 20px;
-        flex-direction: column;
-        gap: 15px;
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        padding: 12px 15px;
     }
 
     nav {
-        gap: 12px;
-        flex-wrap: wrap;
+        order: 3;
+
+        width: 100%;
+
         justify-content: center;
+
+        gap: 15px;
+
+        overflow-x: auto;
+    }
+
+    nav a {
+        white-space: nowrap;
+
+        font-size: 14px;
+    }
+
+    .logo {
+        font-size: 28px;
+    }
+
+    .hero {
+        min-height: 450px;
+
+        padding: 60px 15px;
     }
 
     .hero h1 {
-        font-size: 36px;
+        font-size: 38px;
     }
 
     .hero p {
-        font-size: 17px;
+        font-size: 18px;
+    }
+
+    section {
+        padding: 55px 15px;
+    }
+
+    section h2 {
+        font-size: 29px;
     }
 
     .product-container {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .product-image {
+        height: 220px;
+    }
+
+    .product h3 {
+        padding: 13px 12px 5px;
+
+        font-size: 16px;
+    }
+
+    .product p {
+        padding: 0 12px;
+
+        font-size: 13px;
+    }
+
+    .product strong {
+        padding: 9px 12px;
+
+        font-size: 16px;
+    }
+
+    .product > button {
+        margin: 0 12px;
+
+        width: calc(100% - 24px);
+
+        font-size: 13px;
+    }
+
+    .admin-panel {
+        padding: 18px;
+    }
+
+    .admin-stats {
         grid-template-columns: 1fr;
     }
 
-    .about,
-    .contact {
-        padding: 50px 20px;
+    .cart-item {
+        align-items: flex-start;
+    }
+
+    .message-box {
+        left: 15px;
+        right: 15px;
+
+        bottom: 15px;
+
+        max-width: none;
+
+        text-align: center;
     }
 }
 
-/* =========================
-   شاشة التسجيل على الموبايل
-========================= */
 
 @media (max-width: 480px) {
 
-    .auth-overlay {
-        align-items: flex-start;
-        padding-top: 20px;
+    .header-actions {
+        width: 100%;
+
+        justify-content: center;
     }
 
-    .auth-box {
-        padding: 22px;
-        margin: 10px 0;
+    .header-actions button {
+        flex: 1;
     }
 
-    .auth-box h2 {
-        font-size: 24px;
+    .product-container {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .auth-box input {
-        padding: 12px;
+    .product-image {
+        height: 190px;
     }
 
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .hero-buttons button,
+    .main-button {
+        width: 100%;
+    }
+
+    .auth-links {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .cart-item {
+        flex-wrap: wrap;
+    }
+
+    .cart-item-info {
+        min-width: 150px;
+    }
+
+    .remove-cart-item {
+        margin-right: auto;
+    }
 }
+```

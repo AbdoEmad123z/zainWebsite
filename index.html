@@ -6,124 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>زين للملابس الجاهزة</title>
+    <title>زين للملابس الجاهزة | جملة وقطاعي</title>
+
+    <meta name="description"
+          content="زين للملابس الجاهزة - ملابس حريمي وأولادي وشبابي بالجملة والقطاعي مع توصيل لجميع المحافظات.">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- نظام الحساب -->
-    <div id="authOverlay" class="auth-overlay">
-
-        <!-- التسجيل -->
-        <div id="registerBox" class="auth-box">
-
-            <h2>إنشاء حساب</h2>
-            <p>أنشئ حسابك في زين للملابس الجاهزة</p>
-
-            <input type="text" id="registerName" placeholder="الاسم الكامل">
-
-            <input type="email" id="registerEmail" placeholder="البريد الإلكتروني">
-
-            <input type="tel" id="registerPhone" placeholder="رقم الهاتف">
-
-            <input type="text" id="registerAddress" placeholder="العنوان">
-
-            <input type="password" id="registerPassword" placeholder="كلمة المرور">
-
-            <input type="password" id="registerPasswordConfirm" placeholder="تأكيد كلمة المرور">
-
-            <input type="text" id="fatherName" placeholder="ما اسم أبيك؟">
-
-            <button onclick="registerCustomer()">إنشاء الحساب</button>
-
-            <p id="registerMessage" class="auth-message"></p>
-
-            <a href="#" onclick="showLogin(); return false;">
-                لدي حساب بالفعل
-            </a>
-
-        </div>
-
-
-        <!-- تسجيل الدخول -->
-        <div id="loginBox" class="auth-box auth-hidden">
-
-            <h2>تسجيل الدخول</h2>
-
-            <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
-
-            <input type="password" id="loginPassword" placeholder="كلمة المرور">
-
-            <button onclick="loginCustomer()">تسجيل الدخول</button>
-
-            <a class="forgot-password"
-               href="#"
-               onclick="showForgotPassword(); return false;">
-                هل نسيت كلمة المرور؟
-            </a>
-
-            <p id="loginMessage" class="auth-message"></p>
-
-            <a href="#" onclick="showRegister(); return false;">
-                إنشاء حساب جديد
-            </a>
-
-        </div>
-
-
-        <!-- استرجاع كلمة المرور -->
-        <div id="forgotBox" class="auth-box auth-hidden">
-
-            <h2>استرجاع كلمة المرور</h2>
-
-            <p>اكتب بياناتك لاسترجاع حسابك</p>
-
-            <input type="email"
-                   id="forgotEmail"
-                   placeholder="البريد الإلكتروني">
-
-            <input type="text"
-                   id="forgotFatherName"
-                   placeholder="ما اسم أبيك؟">
-
-            <button onclick="resetPassword()">
-                التحقق واسترجاع كلمة المرور
-            </button>
-
-            <div id="newPasswordArea" class="auth-hidden">
-
-                <input type="password"
-                       id="newPassword"
-                       placeholder="كلمة المرور الجديدة">
-
-                <input type="password"
-                       id="newPasswordConfirm"
-                       placeholder="تأكيد كلمة المرور الجديدة">
-
-                <button onclick="saveNewPassword()">
-                    حفظ كلمة المرور الجديدة
-                </button>
-
-            </div>
-
-            <p id="forgotMessage" class="auth-message"></p>
-
-            <a href="#" onclick="showLogin(); return false;">
-                العودة لتسجيل الدخول
-            </a>
-
-        </div>
-
-    </div>
-
-
-    <!-- الموقع -->
+    <!-- ============================= -->
+    <!-- الهيدر -->
+    <!-- ============================= -->
 
     <header>
 
-        <div class="logo">زين</div>
+        <div class="logo">
+            زين
+        </div>
 
         <nav>
             <a href="#home">الرئيسية</a>
@@ -132,77 +33,49 @@
             <a href="#contact">تواصل معنا</a>
         </nav>
 
+        <div class="header-actions">
+
+            <button id="accountButton" onclick="openAccount()">
+                👤 حسابي
+            </button>
+
+            <button id="cartButton" onclick="openCart()">
+                🛒 السلة
+                <span id="cartCount">0</span>
+            </button>
+
+        </div>
+
     </header>
 
 
+    <!-- ============================= -->
+    <!-- الرئيسية -->
+    <!-- ============================= -->
+
     <section id="home" class="hero">
 
-        <h1>زين للملابس الجاهزة</h1>
+        <div class="hero-content">
 
-        <p>
-            ملابس جاهزة بأسعار مميزة
-            <br>
-            جملة وقطاعي
-        </p>
+            <h1>
+                زين للملابس الجاهزة
+            </h1>
 
-        <button onclick="showMessage()">تواصل معنا</button>
+            <p>
+                ملابس جاهزة بأسعار مميزة
+                <br>
+                جملة وقطاعي
+            </p>
 
-    </section>
+            <div class="hero-buttons">
 
+                <a href="#products" class="main-button">
+                    تصفح المنتجات
+                </a>
 
-    <section id="products" class="products">
-
-        <h2>منتجاتنا</h2>
-
-        <div class="product-container">
-
-            <div class="product">
-
-                <div class="product-image">
-                    صورة المنتج
-                </div>
-
-                <h3>ملابس حريمي</h3>
-
-                <p>أحدث الموديلات</p>
-
-                <strong>السعر: 000 جنيه</strong>
-
-                <button>اطلب الآن</button>
-
-            </div>
-
-
-            <div class="product">
-
-                <div class="product-image">
-                    صورة المنتج
-                </div>
-
-                <h3>ملابس أولادي</h3>
-
-                <p>ملابس أطفال متنوعة</p>
-
-                <strong>السعر: 000 جنيه</strong>
-
-                <button>اطلب الآن</button>
-
-            </div>
-
-
-            <div class="product">
-
-                <div class="product-image">
-                    صورة المنتج
-                </div>
-
-                <h3>ملابس شبابي</h3>
-
-                <p>أحدث الملابس الشبابية</p>
-
-                <strong>السعر: 000 جنيه</strong>
-
-                <button>اطلب الآن</button>
+                <button onclick="openWhatsApp()">
+                    💬 تواصل واتساب
+                </button>
 
             </div>
 
@@ -211,35 +84,142 @@
     </section>
 
 
+    <!-- ============================= -->
+    <!-- المنتجات -->
+    <!-- ============================= -->
+
+    <section id="products" class="products">
+
+        <h2>
+            منتجاتنا
+        </h2>
+
+        <p class="section-description">
+            اختار القسم وشوف المنتجات المتاحة
+        </p>
+
+
+        <!-- تصفية الأقسام -->
+
+        <div class="category-buttons">
+
+            <button
+                class="category-button active"
+                onclick="filterProducts('all', this)">
+                الكل
+            </button>
+
+            <button
+                class="category-button"
+                onclick="filterProducts('نسائي', this)">
+                نسائي
+            </button>
+
+            <button
+                class="category-button"
+                onclick="filterProducts('أولادي', this)">
+                أولادي
+            </button>
+
+            <button
+                class="category-button"
+                onclick="filterProducts('شبابي', this)">
+                شبابي
+            </button>
+
+        </div>
+
+
+        <!-- المنتجات من Supabase -->
+
+        <div id="productsContainer" class="product-container">
+
+            <div class="loading-products">
+                جاري تحميل المنتجات...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- من نحن -->
+    <!-- ============================= -->
+
     <section id="about" class="about">
 
-        <h2>من نحن</h2>
+        <h2>
+            من نحن
+        </h2>
 
         <p>
-            شركة زين للملابس الجاهزة
-            لاستيراد وتصدير الملابس الجاهزة
-            والبيع بالجملة والقطاعي.
+            شركة زين للملابس الجاهزة لاستيراد وتصدير الملابس الجاهزة،
+            والبيع بالجملة والقطاعي بأفضل الأسعار.
+        </p>
+
+        <p>
+            نوفر ملابس حريمي وأولادي وشبابي،
+            مع إمكانية التوصيل لجميع محافظات مصر حتى باب المنزل.
         </p>
 
     </section>
 
+
+    <!-- ============================= -->
+    <!-- التواصل -->
+    <!-- ============================= -->
 
     <section id="contact" class="contact">
 
-        <h2>تواصل معنا</h2>
+        <h2>
+            تواصل معنا
+        </h2>
 
-        <p>📞 01550154020</p>
+        <div class="contact-box">
 
-        <p>
-            📍 ههيا - الشرقية
-            - خلف السكة الحديد
-            - شارع أبو منصور للمخبوزات
-        </p>
+            <p>
+                📞
+                <strong>01550154020</strong>
+            </p>
 
-        <p>🚚 توصيل لجميع المحافظات حتى باب المنزل</p>
+            <p>
+                📍
+                ههيا - الشرقية
+                <br>
+                خلف السكة الحديد
+                <br>
+                شارع أبو منصور للمخبوزات
+            </p>
+
+            <p>
+                🚚 توصيل لجميع المحافظات حتى باب المنزل
+            </p>
+
+            <div class="contact-buttons">
+
+                <button onclick="callCompany()">
+                    📞 اتصال
+                </button>
+
+                <button onclick="openWhatsApp()">
+                    💬 واتساب
+                </button>
+
+                <button onclick="openLocation()">
+                    📍 الموقع
+                </button>
+
+            </div>
+
+        </div>
 
     </section>
 
+
+    <!-- ============================= -->
+    <!-- الفوتر -->
+    <!-- ============================= -->
 
     <footer>
 
@@ -249,6 +229,586 @@
 
     </footer>
 
+
+    <!-- ================================================= -->
+    <!-- نافذة الحساب -->
+    <!-- ================================================= -->
+
+    <div id="authOverlay" class="modal-overlay">
+
+        <div class="modal-box">
+
+            <button class="close-modal" onclick="closeAuth()">
+                ×
+            </button>
+
+
+            <!-- تسجيل الدخول -->
+
+            <div id="loginBox">
+
+                <h2>
+                    تسجيل الدخول
+                </h2>
+
+                <p>
+                    ادخل إلى حسابك
+                </p>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="البريد الإلكتروني"
+                    autocomplete="email">
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="كلمة المرور"
+                    autocomplete="current-password">
+
+                <button
+                    class="primary-button"
+                    onclick="loginCustomer()">
+
+                    تسجيل الدخول
+
+                </button>
+
+                <p
+                    id="loginMessage"
+                    class="message">
+                </p>
+
+                <div class="auth-links">
+
+                    <a
+                        href="#"
+                        onclick="showRegister(); return false;">
+                        إنشاء حساب جديد
+                    </a>
+
+                    <a
+                        href="#"
+                        onclick="showForgotPassword(); return false;">
+                        نسيت كلمة المرور؟
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- إنشاء حساب -->
+
+            <div id="registerBox" class="auth-hidden">
+
+                <h2>
+                    إنشاء حساب
+                </h2>
+
+                <p>
+                    أنشئ حسابك في زين للملابس الجاهزة
+                </p>
+
+                <input
+                    type="text"
+                    id="registerName"
+                    placeholder="الاسم الكامل"
+                    autocomplete="name">
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="البريد الإلكتروني"
+                    autocomplete="email">
+
+                <input
+                    type="tel"
+                    id="registerPhone"
+                    placeholder="رقم الهاتف"
+                    autocomplete="tel">
+
+                <input
+                    type="text"
+                    id="registerAddress"
+                    placeholder="العنوان"
+                    autocomplete="street-address">
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="كلمة المرور"
+                    autocomplete="new-password">
+
+                <input
+                    type="password"
+                    id="registerPasswordConfirm"
+                    placeholder="تأكيد كلمة المرور"
+                    autocomplete="new-password">
+
+                <button
+                    class="primary-button"
+                    onclick="registerCustomer()">
+
+                    إنشاء الحساب
+
+                </button>
+
+                <p
+                    id="registerMessage"
+                    class="message">
+                </p>
+
+                <div class="auth-links">
+
+                    <a
+                        href="#"
+                        onclick="showLogin(); return false;">
+                        لدي حساب بالفعل
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- استرجاع كلمة المرور -->
+
+            <div id="forgotBox" class="auth-hidden">
+
+                <h2>
+                    استرجاع كلمة المرور
+                </h2>
+
+                <p>
+                    أدخل بريدك الإلكتروني وسنرسل لك رابط تغيير كلمة المرور.
+                </p>
+
+                <input
+                    type="email"
+                    id="forgotEmail"
+                    placeholder="البريد الإلكتروني"
+                    autocomplete="email">
+
+                <button
+                    class="primary-button"
+                    onclick="resetPassword()">
+
+                    إرسال رابط الاسترجاع
+
+                </button>
+
+                <p
+                    id="forgotMessage"
+                    class="message">
+                </p>
+
+                <div class="auth-links">
+
+                    <a
+                        href="#"
+                        onclick="showLogin(); return false;">
+                        العودة لتسجيل الدخول
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- نافذة الحساب بعد تسجيل الدخول -->
+    <!-- ================================================= -->
+
+    <div id="accountOverlay" class="modal-overlay">
+
+        <div class="modal-box account-box">
+
+            <button class="close-modal" onclick="closeAccount()">
+                ×
+            </button>
+
+            <h2>
+                حسابي
+            </h2>
+
+            <div id="accountInfo">
+
+                <p>
+                    جاري تحميل بيانات الحساب...
+                </p>
+
+            </div>
+
+            <div class="account-actions">
+
+                <button
+                    id="adminButton"
+                    class="admin-button auth-hidden"
+                    onclick="openAdminPanel()">
+
+                    ⚙️ لوحة المدير
+
+                </button>
+
+                <button
+                    onclick="logoutCustomer()">
+
+                    تسجيل الخروج
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- السلة -->
+    <!-- ================================================= -->
+
+    <div id="cartOverlay" class="modal-overlay">
+
+        <div class="modal-box cart-box">
+
+            <button class="close-modal" onclick="closeCart()">
+                ×
+            </button>
+
+            <h2>
+                🛒 سلة المشتريات
+            </h2>
+
+            <div id="cartItems">
+
+                <p class="empty-cart">
+                    السلة فارغة
+                </p>
+
+            </div>
+
+            <div class="cart-summary">
+
+                <strong>
+                    الإجمالي:
+                </strong>
+
+                <span id="cartTotal">
+                    0 جنيه
+                </span>
+
+            </div>
+
+            <button
+                id="checkoutButton"
+                class="primary-button"
+                onclick="openCheckout()">
+
+                إتمام الطلب
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- إتمام الطلب -->
+    <!-- ================================================= -->
+
+    <div id="checkoutOverlay" class="modal-overlay">
+
+        <div class="modal-box">
+
+            <button class="close-modal" onclick="closeCheckout()">
+                ×
+            </button>
+
+            <h2>
+                إتمام الطلب
+            </h2>
+
+            <p>
+                اكتب بيانات التوصيل
+            </p>
+
+            <input
+                type="text"
+                id="checkoutName"
+                placeholder="الاسم الكامل">
+
+            <input
+                type="tel"
+                id="checkoutPhone"
+                placeholder="رقم الهاتف">
+
+            <input
+                type="text"
+                id="checkoutAddress"
+                placeholder="عنوان التوصيل">
+
+            <textarea
+                id="checkoutNotes"
+                placeholder="ملاحظات إضافية (اختياري)"
+                rows="4"></textarea>
+
+            <div class="checkout-total">
+
+                الإجمالي:
+                <strong id="checkoutTotal">
+                    0 جنيه
+                </strong>
+
+            </div>
+
+            <button
+                class="primary-button"
+                onclick="submitOrder()">
+
+                تأكيد الطلب
+
+            </button>
+
+            <p
+                id="checkoutMessage"
+                class="message">
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- لوحة المدير -->
+    <!-- ================================================= -->
+
+    <div id="adminOverlay" class="modal-overlay">
+
+        <div class="admin-panel">
+
+            <button
+                class="close-modal"
+                onclick="closeAdminPanel()">
+
+                ×
+
+            </button>
+
+
+            <div class="admin-header">
+
+                <div>
+
+                    <h2>
+                        ⚙️ لوحة إدارة زين
+                    </h2>
+
+                    <p>
+                        إدارة المنتجات والطلبات والعملاء
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- إحصائيات -->
+
+            <div class="admin-stats">
+
+                <div class="stat-card">
+
+                    <span>
+                        المنتجات
+                    </span>
+
+                    <strong id="adminProductsCount">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span>
+                        الطلبات
+                    </span>
+
+                    <strong id="adminOrdersCount">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span>
+                        العملاء
+                    </span>
+
+                    <strong id="adminCustomersCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- إضافة منتج -->
+
+            <section class="admin-section">
+
+                <h3>
+                    ➕ إضافة منتج جديد
+                </h3>
+
+                <div class="admin-form">
+
+                    <input
+                        type="text"
+                        id="productName"
+                        placeholder="اسم المنتج">
+
+                    <textarea
+                        id="productDescription"
+                        placeholder="وصف المنتج"
+                        rows="3"></textarea>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        placeholder="السعر بالجنيه"
+                        min="0"
+                        step="0.01">
+
+                    <select id="productCategory">
+
+                        <option value="نسائي">
+                            نسائي
+                        </option>
+
+                        <option value="أولادي">
+                            أولادي
+                        </option>
+
+                        <option value="شبابي">
+                            شبابي
+                        </option>
+
+                    </select>
+
+                    <label class="file-label">
+
+                        صورة المنتج
+
+                        <input
+                            type="file"
+                            id="productImage"
+                            accept="image/jpeg,image/png,image/webp">
+
+                    </label>
+
+                    <button
+                        class="primary-button"
+                        onclick="addProduct()">
+
+                        إضافة المنتج
+
+                    </button>
+
+                    <p
+                        id="productMessage"
+                        class="message">
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- المنتجات -->
+
+            <section class="admin-section">
+
+                <h3>
+                    👕 المنتجات الحالية
+                </h3>
+
+                <div id="adminProductsList">
+
+                    جاري تحميل المنتجات...
+
+                </div>
+
+            </section>
+
+
+            <!-- الطلبات -->
+
+            <section class="admin-section">
+
+                <h3>
+                    📦 الطلبات
+                </h3>
+
+                <div id="adminOrdersList">
+
+                    جاري تحميل الطلبات...
+
+                </div>
+
+            </section>
+
+
+            <!-- العملاء -->
+
+            <section class="admin-section">
+
+                <h3>
+                    👥 العملاء
+                </h3>
+
+                <div id="adminCustomersList">
+
+                    جاري تحميل العملاء...
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- رسالة عامة -->
+    <!-- ================================================= -->
+
+    <div id="messageBox" class="message-box">
+
+        <span id="messageText"></span>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- Supabase + JavaScript -->
+    <!-- ================================================= -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
 
     <script src="script.js"></script>
 
